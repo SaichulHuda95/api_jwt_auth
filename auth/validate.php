@@ -1,4 +1,5 @@
 <?php
+require_once "../config/init.php";
 require_once "../jwt/validate.php";
 
 use \Firebase\JWT\JWT;
@@ -16,8 +17,8 @@ $jwt = str_replace('Bearer ', '', $authHeader);
 
 try {
     $decoded = JWT::decode($jwt, $secretKey, ['HS256']);
-    echo json_encode(["message" => "Akses diterima", "data" => $decoded->data]);
 } catch (Exception $e) {
     http_response_code(401);
     echo json_encode(["message" => "Token tidak valid", "error" => $e->getMessage()]);
+    exit;
 }
